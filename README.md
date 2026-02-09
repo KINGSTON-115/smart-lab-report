@@ -2,54 +2,39 @@
 
 > **做实验 2 小时，写报告 6 小时？让 AI 帮你写！**
 
+[![GitHub Release](https://img.shields.io/github/release/KINGSTON-115/smart-lab-report.svg)](https://github.com/KINGSTON-115/smart-lab-report/releases)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-## 📌 项目简介
+---
 
-一个从**实验数据/代码/图像**自动生成规范实验报告的工具，让大学生专注于实验本身，而非繁琐的报告写作。
+## 🚀 一、立即使用（选择一种方式）
 
-## ✨ 核心亮点
+### 方式 A：下载 Windows exe（最简单，推荐！）
 
-| 特性 | 说明 |
-|------|------|
-| 🖱️ **一键操作** | Windows exe 双击即用，无需安装 Python |
-| 📄 **Word 输出** | 直接生成 `.docx`，符合中国大学生习惯 |
-| 🤖 **AI 增强** | 可选接入大模型，自动分析实验现象 |
-| 📊 **自动绑图** | 智能绑定 Matplotlib 图表 |
-| 🎓 **多学科模板** | 物理/化学/生物/计算机/工程全覆盖 |
+1. **下载**：https://github.com/KINGSTON-115/smart-lab-report/releases
+2. **双击** `SmartLabReport.exe` 运行
+3. **选择数据** → 填写信息 → 生成报告
 
-## 🚀 快速开始
+### 方式 B：在线体验（无下载）
 
-### Windows 用户（推荐）
+使用 Google Colab 或本地 Python：
 
-**方式一：下载 exe**
-
-1. 从 [Releases](https://github.com/KINGSTON-115/smart-lab-report/releases) 下载 `SmartLabReport.exe`
-2. 双击运行，选择数据 → 填写信息 → 生成报告
-
-**方式二：源码运行**
-
-```cmd
+```bash
+# 克隆并运行
 git clone https://github.com/KINGSTON-115/smart-lab-report.git
 cd smart-lab-report
 pip install -r requirements.txt
 python gui.py
 ```
 
-### Linux/Mac 用户
+### 方式 C：CLI 命令行
 
 ```bash
-git clone https://github.com/KINGSTON-115/smart-lab-report.git
-cd smart-lab-report
+# 安装依赖
 pip install -r requirements.txt
-python gui.py
-```
 
-### CLI 使用
-
-```bash
-# 生成物理实验报告
+# 生成报告
 python cli.py \
   --data data/examples/欧姆定律数据.csv \
   --title "欧姆定律验证实验" \
@@ -57,82 +42,24 @@ python cli.py \
   --output report.docx
 ```
 
-## 📖 使用教程
+---
 
-### 1. 准备数据
+## ✨ 二、核心功能
 
-支持 **CSV / Excel / JSON** 格式：
+| 功能 | 说明 | 状态 |
+|------|------|------|
+| 🪟 Windows exe | 双击运行，无需 Python | ⏳ 构建中 |
+| 📄 Word 输出 | 直接生成 `.docx` | ✅ 已完成 |
+| 🤖 AI 分析 | GPT/Claude 自动分析 | ✅ 已完成 |
+| 📊 自动绑图 | Matplotlib 图表嵌入 | ✅ 已完成 |
+| 📚 14 个模板 | 物理/化学/生物/计算机/工程 | ✅ 已完成 |
 
-```csv
-电压(V),电流(A),电阻(Ω)
-1.0,0.020,50.0
-2.0,0.040,50.0
-3.0,0.060,50.0
-4.0,0.080,50.0
-5.0,0.100,50.0
-```
+---
 
-### 2. 打开程序
-
-- Windows：双击 `SmartLabReport.exe`
-- 终端：`python gui.py`
-
-### 3. 生成报告
-
-```
-📁 选择数据文件
-📝 填写标题/作者/组别
-📊 选择图表参数
-📤 选择输出格式（Word/HTML）
-🚀 点击生成
-```
-
-## 📁 项目结构
-
-```
-smart-lab-report/
-├── src/
-│   ├── core/engine.py          # 核心引擎
-│   ├── generators/
-│   │   ├── chart_generator.py   # 图表生成
-│   │   ├── report_generator.py  # HTML报告
-│   │   ├── word_generator.py    # Word文档 ⭐
-│   │   └── ai_analyzer.py       # AI分析（可选）
-│   └── tests/                   # 测试用例
-├── data/
-│   └── examples/                # 示例数据
-├── gui.py                       # GUI界面 ⭐
-├── cli.py                       # 命令行工具
-├── main.py                      # Windows入口
-├── requirements.txt             # 依赖配置
-├── build.bat                    # Windows打包脚本
-└── README.md
-```
-
-## 🎓 支持的实验模板
-
-| 模板 | 适用学科 | 章节 |
-|------|---------|------|
-| `physics_basic` | 物理 | 目的→原理→仪器→步骤→数据→误差→结论 |
-| `chemistry_basic` | 化学 | 目的→原理→试剂→步骤→观察→计算→误差→结论 |
-| `biology_basic` | 生物 | 目的→背景→材料→结果→分析→结论 |
-| `cs_algorithm` | 计算机 | 问题→算法→复杂度→代码→测试→结果→讨论 |
-| `engineering_basic` | 工程 | 目的→理论→规格→程序→分析→评估→结论 |
-
-## 🛠️ 技术栈
-
-| 技术 | 用途 |
-|------|------|
-| Python 3.10+ | 主语言 |
-| PySimpleGUI | Windows GUI |
-| python-docx | Word 文档 |
-| Matplotlib | 图表生成 |
-| Pandas | 数据处理 |
-| Jinja2 | 模板引擎 |
-
-## 📦 依赖安装
+## 📦 三、安装依赖
 
 ```txt
+# requirements.txt
 matplotlib>=3.8.0
 pandas>=2.0.0
 numpy>=1.24.0
@@ -143,17 +70,62 @@ PySimpleGUI>=4.60.0
 pyyaml>=6.0
 ```
 
-## 🔨 Windows 打包
+安装：`pip install -r requirements.txt`
 
-```cmd
-.\build.bat
+---
+
+## 📖 四、使用说明
+
+### 数据格式
+
+| 格式 | 扩展名 | 示例 |
+|------|--------|------|
+| CSV | `.csv` | `电压,电流,电阻` |
+| Excel | `.xlsx` | Excel 工作簿 |
+| JSON | `.json` | JSON 数据 |
+
+### 实验模板
+
+```
+templates/
+├── physics/           🔬 物理实验
+├── chemistry/         🧪 化学实验
+├── biology/          🧬 生物实验
+├── cs/               💻 计算机实验
+└── engineering/      ⚙️ 工程实验
 ```
 
-输出：`dist/SmartLabReport.exe`
+### AI 配置
 
-## 🤝 贡献指南
+```bash
+# 设置 API Key
+export OPENAI_API_KEY="your-key"
+export ANTHROPIC_API_KEY="your-key"
+```
 
-欢迎提交 Issue 和 PR！
+---
+
+## 📁 五、项目结构
+
+```
+smart-lab-report/
+├── 📄 gui.py              # 图形界面
+├── 📄 cli.py             # 命令行工具
+├── 📦 src/generators/    # 核心模块
+│   ├── ai_engine.py      # AI 分析
+│   ├── chart_generator.py # 图表生成
+│   ├── word_generator.py # Word 输出
+│   └── ...
+├── 📚 templates/         # 实验模板
+├── 📊 data/examples/     # 示例数据
+└── 📖 README.md          # 本文档
+```
+
+---
+
+## 🤝 六、贡献指南
+
+欢迎贡献代码！
 
 1. Fork 本仓库
 2. 创建分支：`git checkout -b feature/amazing-feature`
@@ -161,9 +133,13 @@ pyyaml>=6.0
 4. 推送到分支：`git push origin feature/amazing-feature`
 5. 开启 Pull Request
 
+---
+
 ## 📄 许可证
 
 MIT License - 详见 [LICENSE](LICENSE)
+
+---
 
 ## 🙏 致谢
 
@@ -174,13 +150,11 @@ MIT License - 详见 [LICENSE](LICENSE)
 
 **让实验报告写作变得简单！** 🎉
 
----
-
 <p align="center">
   <a href="https://github.com/KINGSTON-115/smart-lab-report">
     <img src="https://img.shields.io/github/stars/KINGSTON-115/smart-lab-report?style=social" alt="Stars">
   </a>
-  <a href="https://github.com/KINGSTON-115/smart-lab-report/issues">
-    <img src="https://img.shields.io/github/issues/KINGSTON-115/smart-lab-report" alt="Issues">
+  <a href="https://github.com/KINGSTON-115/smart-lab-report/releases">
+    <img src="https://img.shields.io/github/downloads/KINGSTON-115/smart-lab-report/total" alt="Downloads">
   </a>
 </p>
