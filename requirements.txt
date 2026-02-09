@@ -1,5 +1,18 @@
-matplotlib>=3.8.0
-pandas>=2.0.0
-numpy>=1.24.0
-jinja2>=3.1.0
-pyyaml>=6.0
+# 🧪 Smart Lab Report - 依赖配置
+# Smart Lab Report - Dependencies
+
+# 核心依赖
+matplotlib>=3.8.0          # 图表生成
+pandas>=2.0.0              # 数据处理
+numpy>=1.24.0              # 数值计算
+jinja2>=3.1.0              # 模板引擎
+
+# 可选依赖
+pyyaml>=6.0                # YAML 配置
+
+# PDF 生成（可选）
+# weasyprint>=60.0         # HTML 转 PDF
+
+# AI 分析（可选）
+# langchain>=0.1.0         # LLM 框架
+# openai>=1.0.0            # OpenAI API
