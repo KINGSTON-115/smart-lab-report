@@ -4,18 +4,26 @@ name: Build Windows EXE
 on:
   release:
     types: [created]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: '版本号'
+        required: false
+        default: '1.0.0'
 
 jobs:
   build:
     runs-on: windows-latest
     
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v4
     
-    - name: Set up Python
+    - name: Set up Python 3.10
       uses: actions/setup-python@v5
       with:
         python-version: '3.10'
+        cache: 'pip'
     
     - name: Install dependencies
       run: |
@@ -35,3 +43,4 @@ jobs:
         asset_path: dist/SmartLabReport.exe
         asset_name: SmartLabReport.exe
         asset_content_type: application/x-msdownload
+
