@@ -13,14 +13,14 @@ python-docx>=1.1.0         # Word 文档生成
 openpyxl>=3.1.0            # Excel 文件支持
 
 # GUI 界面（Windows）
-PySimpleGUI>=4.60.0        # 简单 GUI（跨平台）
+PySimpleGUI>=4.60.0         # 简单 GUI（跨平台）
+
+# AI 大模型支持（可选）
+openai>=1.0.0              # OpenAI GPT
+anthropic>=0.3.0           # Claude
 
 # PDF 生成（可选）
 # weasyprint>=60.0         # HTML 转 PDF
-
-# AI 分析（可选）
-# langchain>=0.1.0         # LLM 框架
-# openai>=1.0.0            # OpenAI API
 
 # Windows 打包（仅 Windows）
 # pyinstaller>=6.0.0       # 打包为 exe
