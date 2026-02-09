@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧪 Smart Lab Report - 智能实验报告生成器</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .section {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .section h2 {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 13px;
+            color: #555;
+        }
+        
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+        }
+        
+        .btn-outline {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+        
+        .buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .output-section {
+            background: #1a1a2e;
+            color: #0f0;
+            padding: 20px;
+            border-radius: 12px;
+            font-family: 'Consolas', monospace;
+            font-size: 13px;
+            min-height: 200px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .output-section .success {
+            color: #38ef7d;
+        }
+        
+        .output-section .error {
+            color: #ef4444;
+        }
+        
+        .output-section .info {
+            color: #60a5fa;
+        }
+        
+        .status-bar {
+            background: #f0f0f0;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+        
+        .file-input-wrapper input[type=file] {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+        
+        .template-tag {
+            display: inline-block;
+            padding: 4px 12px;
+            background: #667eea;
+            color: white;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+        
+        .preview-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            font-size: 12px;
+        }
+        
+        .preview-table th,
+        .preview-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        
+        .preview-table th {
+            background: #667eea;
+            color: white;
+        }
+        
+        .progress {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            width: 0%;
+            transition: width 0.3s;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧪 Smart Lab Report</h1>
+            <p>智能实验报告生成器 - 一键生成 Word/HTML/PDF 报告</p>
+        </div>
+        
+        <div class="content">
+            <!-- 数据文件选择 -->
+            <div class="section">
+                <h2>📁 1. 选择实验数据</h2>
+                <div class="form-group">
+                    <label>数据文件 (CSV / Excel / JSON)</label>
+                    <div class="file-input-wrapper btn btn-outline" style="width: 100%; text-align: center;">
+                        📂 选择文件
+                        <input type="file" id="fileInput" accept=".csv,.xlsx,.json">
+                    </div>
+                    <p id="fileInfo" style="margin-top: 8px; font-size: 12px; color: #666;"></p>
+                </div>
+                <div id="dataPreview"></div>
+            </div>
+            
+            <!-- 报告信息 -->
+            <div class="section">
+                <h2>📝 2. 填写报告信息</h2>
+                <div class="row">
+                    <div class="form-group">
+                        <label>报告标题</label>
+                        <input type="text" id="title" placeholder="例如：欧姆定律验证实验" value="实验报告">
+                    </div>
+                    <div class="form-group">
+                        <label>模板选择</label>
+                        <select id="template">
+                            <option value="physics_basic">🔬 物理实验基础模板</option>
+                            <option value="chemistry_basic">🧪 化学实验基础模板</option>
+                            <option value="biology_basic">🧬 生物实验基础模板</option>
+                            <option value="cs_algorithm">💻 计算机算法模板</option>
+                            <option value="engineering_basic">⚙️ 工程实验基础模板</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <label>作者姓名</label>
+                        <input type="text" id="author" placeholder="你的名字">
+                    </div>
+                    <div class="form-group">
+                        <label>实验组别</label>
+                        <input type="text" id="group" placeholder="例如：物理1班第3组">
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 输出设置 -->
+            <div class="section">
+                <h2>📤 3. 选择输出格式</h2>
+                <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                        <input type="checkbox" id="outputDocx" checked> 📄 Word (.docx)
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                        <input type="checkbox" id="outputHtml" checked> 🌐 HTML
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                        <input type="checkbox" id="outputMd"> 📝 Markdown
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                        <input type="checkbox" id="outputPdf"> 📑 PDF
+                    </label>
+                </div>
+            </div>
+            
+            <!-- 按钮 -->
+            <div class="buttons">
+                <button class="btn btn-success" onclick="generateReport()">
+                    🚀 生成报告
+                </button>
+                <button class="btn btn-outline" onclick="clearAll()">
+                    🗑️ 清空
+                </button>
+            </div>
+            
+            <!-- 进度 -->
+            <div id="progressSection" style="display: none; margin-top: 20px;">
+                <div class="progress">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+                <p id="progressText" style="text-align: center; font-size: 13px; color: #666;"></p>
+            </div>
+            
+            <!-- 输出区域 -->
+            <div class="section" style="margin-top: 20px;">
+                <h2>📜 生成日志</h2>
+                <div class="output-section" id="output">
+                    <span class="info">ℹ️ 选择数据文件后，点击「生成报告」...</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="status-bar">
+            <span>💻 Web Demo | 纯前端演示版本</span>
+            <span>📦 完整功能请下载 Windows exe</span>
+        </div>
+    </div>
+
+    <script>
+        // 状态
+        let currentData = null;
+        let dataPreview = null;
+        
+        // 日志输出
+        function log(message, type = 'info') {
+            const output = document.getElementById('output');
+            const time = new Date().toLocaleTimeString('zh-CN');
+            const className = type === 'error' ? 'error' : (type === 'success' ? 'success' : 'info');
+            output.innerHTML += `<div class="${className}">[${time}] ${message}</div>`;
+            output.scrollTop = output.scrollHeight;
+        }
+        
+        // 清除
+        function clearAll() {
+            document.getElementById('fileInput').value = '';
+            document.getElementById('title').value = '实验报告';
+            document.getElementById('author').value = '';
+            document.getElementById('group').value = '';
+            document.getElementById('dataPreview').innerHTML = '';
+            document.getElementById('fileInfo').textContent = '';
+            document.getElementById('output').innerHTML = '<span class="info">ℹ️ 已清空</span>';
+            currentData = null;
+        }
+        
+        // 文件选择
+        document.getElementById('fileInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) {
+                log('❌ 未选择文件', 'error');
+                return;
+            }
+            
+            document.getElementById('fileInfo').innerHTML = `✅ 已选择: ${file.name} (${(file.size/1024).toFixed(1)} KB)`;
+            log(`📂 加载文件: ${file.name}`, 'info');
+            
+            // 显示数据预览
+            showDataPreview(file);
+        });
+        
+        // 显示数据预览
+        function showDataPreview(file) {
+            log('📊 解析数据中...', 'info');
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const text = e.target.result;
+                    const lines = text.split('\n').filter(line => line.trim()).slice(0, 10);
+                    
+                    if (lines.length < 2) {
+                        log('❌ 数据格式错误或为空', 'error');
+                        return;
+                    }
+                    
+                    // 解析表头
+                    const headers = lines[0].split(',').map(h => h.trim());
+                    
+                    // 构建表格
+                    let html = '<table class="preview-table"><thead><tr>';
+                    headers.forEach(h => {
+                        html += `<th>${h}</th>`;
+                    });
+                    html += '</tr></thead><tbody>';
+                    
+                    // 解析数据行
+                    for (let i = 1; i < Math.min(lines.length, 8); i++) {
+                        const cells = lines[i].split(',').map(c => c.trim());
+                        html += '<tr>';
+                        cells.forEach(cell => {
+                            html += `<td>${cell}</td>`;
+                        });
+                        html += '</tr>';
+                    }
+                    html += '</tbody></table>';
+                    
+                    document.getElementById('dataPreview').innerHTML = html;
+                    log(`✅ 数据预览: ${lines.length - 1} 行 × ${headers.length} 列`, 'success');
+                } catch (err) {
+                    log(`❌ 解析错误: ${err.message}`, 'error');
+                }
+            };
+            reader.onerror = function() {
+                log('❌ 文件读取失败', 'error');
+            };
+            reader.readAsText(file);
+        }
+        
+        // 生成报告
+        function generateReport() {
+            const title = document.getElementById('title').value || '实验报告';
+            const author = document.getElementById('author').value || '匿名学生';
+            const group = document.getElementById('group').value || '未分配';
+            const template = document.getElementById('template').value;
+            
+            log('='.repeat(50), 'info');
+            log(`📄 开始生成报告: ${title}`, 'info');
+            log(`👤 作者: ${author} | 组别: ${group}`, 'info');
+            log(`📑 模板: ${template}`, 'info');
+            
+            // 检查数据
+            const file = document.getElementById('fileInput').files[0];
+            if (!file) {
+                log('❌ 请先选择数据文件！', 'error');
+                return;
+            }
+            
+            // 显示进度
+            const progressSection = document.getElementById('progressSection');
+            const progressBar = document.getElementById('progressBar');
+            const progressText = document.getElementById('progressText');
+            progressSection.style.display = 'block';
+            
+            // 模拟进度
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += Math.random() * 20;
+                if (progress > 95) progress = 95;
+                progressBar.style.width = progress + '%';
+                progressText.textContent = `处理中... ${Math.floor(progress)}%`;
+            }, 300);
+            
+            // 模拟生成
+            setTimeout(() => {
+                clearInterval(interval);
+                progressBar.style.width = '100%';
+                progressText.textContent = '完成！';
+                
+                log('='.repeat(50), 'info');
+                log('✅ 报告生成完成！', 'success');
+                log('', 'info');
+                log('📤 输出文件:', 'info');
+                
+                if (document.getElementById('outputDocx').checked) {
+                    log(`   📄 ${title}.docx`, 'success');
+                }
+                if (document.getElementById('outputHtml').checked) {
+                    log(`   🌐 ${title}.html`, 'success');
+                }
+                if (document.getElementById('outputMd').checked) {
+                    log(`   📝 ${title}.md`, 'success');
+                }
+                if (document.getElementById('outputPdf').checked) {
+                    log(`   📑 ${title}.pdf`, 'success');
+                }
+                
+                log('', 'info');
+                log('📂 输出目录: output/', 'info');
+                log('', 'info');
+                log('💡 提示: 后端处理完成后会自动下载文件', 'info');
+                
+                // 隐藏进度
+                setTimeout(() => {
+                    progressSection.style.display = 'none';
+                }, 2000);
+            }, 3000);
+        }
+        
+        // 页面加载完成
+        window.onload = function() {
+            log('🧪 Smart Lab Report 已就绪', 'success');
+            log('📁 请选择实验数据文件开始', 'info');
+        };
+    </script>
+</body>
+</html>

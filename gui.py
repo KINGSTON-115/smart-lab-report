@@ -35,16 +35,6 @@ except ImportError:
     PANDAS_AVAILABLE = False
 
 
-def check_dependencies():
-    """检查依赖是否安装"""
-    issues = []
-    
-    if not PANDAS_AVAILABLE:
-        issues.append("pandas - 数据处理")
-    
-    return issues
-
-
 class LabReportApp:
     """实验报告生成器 GUI 应用"""
     
@@ -63,14 +53,6 @@ class LabReportApp:
         
         # 图表类型
         self.chart_types = ["line", "scatter", "bar", "histogram"]
-        
-        # 输出格式
-        self.output_formats = {
-            "Word (.docx)": "docx",
-            "HTML": "html",
-            "Markdown": "md",
-            "PDF": "pdf"
-        }
         
         self._setup_theme()
     
@@ -125,16 +107,12 @@ class LabReportApp:
             ]
         ]
         
-        # ===== 第三行：数据预览 =====
+        # ===== 第三行：数据预览（修复版 - 不使用headings参数）=====
         preview_section = [
             [sg.Text("📊 数据预览", font=('Microsoft YaHei', 12, 'bold'))],
-            [sg.Table(key='-PREVIEW-', 
-                     headings=['数据预览'],
-                     values=[['选择数据文件后显示预览']],
-                     size=(65, 4),
-                     num_rows=4,
-                     display_row_numbers=False,
-                     enable_events=False)]
+            [sg.Multiline(key='-PREVIEW-', size=(65, 4), font=('Consolas', 10),
+                         disabled=True, text_color='#333333',
+                         default_text='选择数据文件后显示预览...')]
         ]
         
         # ===== 第四行：输出设置 =====
@@ -374,13 +352,13 @@ class LabReportApp:
                             text_color='#27AE60'
                         )
                         
-                        # 更新预览
-                        preview_data = df.head(10).values.tolist()
-                        preview_headers = df.columns.tolist()
-                        window['-PREVIEW-'].update(
-                            values=preview_data,
-                            headings=preview_headers
-                        )
+                        # 更新预览（使用 Multiline，修复 FreeSimpleGUI 兼容性问题）
+                        preview_text = f"数据预览 ({df.shape[0]} 行 × {df.shape[1]} 列):\n"
+                        preview_text += "列名: " + ", ".join(df.columns.tolist()) + "\n"
+                        preview_text += "-" * 40 + "\n"
+                        preview_text += df.head(10).to_string(index=False)
+                        window['-PREVIEW-'].update(preview_text)
+                        
                         self.log(window, f"数据预览已更新 ({df.shape[0]} 行)")
             
             elif event == '-GENERATE-':
@@ -391,7 +369,7 @@ class LabReportApp:
                 window['-TITLE-'].update('实验报告')
                 window['-AUTHOR-'].update('')
                 window['-GROUP-'].update('')
-                window['-PREVIEW-'].update(values=[['选择数据文件后显示预览']])
+                window['-PREVIEW-'].update('选择数据文件后显示预览...')
                 window['-LOG-'].update('')
                 window['-FILE_INFO-'].update('选择数据文件开始', text_color='#0066CC')
                 self.data_file = None
@@ -410,11 +388,9 @@ def main():
     print("=" * 60)
     
     # 检查依赖
-    issues = check_dependencies()
-    if issues:
+    if not PANDAS_AVAILABLE:
         print("⚠️ 缺少依赖:")
-        for issue in issues:
-            print(f"   - {issue}")
+        print("   - pandas - 数据处理")
         print("\n请运行: pip install -r requirements.txt")
         print("=" * 60)
     
