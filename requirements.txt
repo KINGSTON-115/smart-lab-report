@@ -15,12 +15,13 @@ openpyxl>=3.1.0            # Excel 文件支持
 # GUI 界面（Windows）
 PySimpleGUI>=4.60.0         # 简单 GUI（跨平台）
 
+# PDF 生成（可选）
+weasyprint>=60.0           # HTML 转 PDF
+reportlab>=4.0.0           # PDF 生成备选
+
 # AI 大模型支持（可选）
 openai>=1.0.0              # OpenAI GPT
 anthropic>=0.3.0           # Claude
 
-# PDF 生成（可选）
-# weasyprint>=60.0         # HTML 转 PDF
-
-# Windows 打包（仅 Windows）
-# pyinstaller>=6.0.0       # 打包为 exe
+# 线程并行（批量处理）
+# concurrent.futures 已内置
