@@ -6,9 +6,14 @@ matplotlib>=3.8.0          # 图表生成
 pandas>=2.0.0              # 数据处理
 numpy>=1.24.0              # 数值计算
 jinja2>=3.1.0              # 模板引擎
-
-# 可选依赖
 pyyaml>=6.0                # YAML 配置
+
+# Word 文档支持
+python-docx>=1.1.0         # Word 文档生成
+openpyxl>=3.1.0            # Excel 文件支持
+
+# GUI 界面（Windows）
+PySimpleGUI>=4.60.0        # 简单 GUI（跨平台）
 
 # PDF 生成（可选）
 # weasyprint>=60.0         # HTML 转 PDF
@@ -16,3 +21,6 @@ pyyaml>=6.0                # YAML 配置
 # AI 分析（可选）
 # langchain>=0.1.0         # LLM 框架
 # openai>=1.0.0            # OpenAI API
+
+# Windows 打包（仅 Windows）
+# pyinstaller>=6.0.0       # 打包为 exe
