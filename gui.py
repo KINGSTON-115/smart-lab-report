@@ -82,7 +82,21 @@ class LabReportApp:
                              initial_folder=str(BASE_DIR / "data"))
             ],
             [sg.Text(key='-FILE_INFO-', size=(60, 1), text_color='#0066CC',
-                    text='选择数据文件开始')]
+                    text='选择数据文件开始')],
+            # 示例数据快捷按钮
+            [sg.Text("📌 快速加载示例数据:", font=('Microsoft YaHei', 10))],
+            [
+                sg.Button("🔬 物理", key='-LOAD_PHYSICS-', size=(10, 1), 
+                         button_color=('white', '#667eea'), font=('Microsoft YaHei', 10)),
+                sg.Button("🧪 化学", key='-LOAD_CHEMISTRY-', size=(10, 1),
+                         button_color=('white', '#27AE60'), font=('Microsoft YaHei', 10)),
+                sg.Button("🧬 生物", key='-LOAD_BIOLOGY-', size=(10, 1),
+                         button_color=('white', '#E67E22'), font=('Microsoft YaHei', 10)),
+                sg.Button("💻 计算机", key='-LOAD_CS-', size=(10, 1),
+                         button_color=('white', '#3498DB'), font=('Microsoft YaHei', 10)),
+                sg.Button("⚙️ 工程", key='-LOAD_ENGINEERING-', size=(10, 1),
+                         button_color=('white', '#9B59B6'), font=('Microsoft YaHei', 10)),
+            ]
         ]
         
         # ===== 第二行：报告信息 =====
@@ -243,6 +257,38 @@ class LabReportApp:
         window['-LOG-'].print(f"{prefix.get(level, 'ℹ️')} {message}",
                              text_color=colors.get(level, '#333333'))
     
+    def load_example(self, window, subject: str, filename: str, template_key: str):
+        """加载示例数据"""
+        filepath = BASE_DIR / "data" / "examples" / filename
+        
+        if not filepath.exists():
+            self.log(window, f"❌ 示例文件不存在: {filename}", 'error')
+            return
+        
+        df, error = self.load_data(str(filepath))
+        if error:
+            self.log(window, f"加载失败: {error}", 'error')
+            return
+        
+        # 更新界面
+        self.data_file = str(filepath)
+        window['-FILE-'].update(str(filepath))
+        window['-FILE_INFO-'].update(
+            f"✅ {subject}示例: {filename} ({df.shape[0]}行×{df.shape[1]}列)",
+            text_color='#27AE60'
+        )
+        
+        # 更新模板
+        window['-TEMPLATE-'].update(self.templates.get(template_key, template_key))
+        
+        # 更新预览
+        preview_text = f"📊 {subject}示例数据预览:\n列名: " + ", ".join(df.columns.tolist()) + "\n"
+        preview_text += "-" * 40 + "\n"
+        preview_text += df.head(10).to_string(index=False)
+        window['-PREVIEW-'].update(preview_text)
+        
+        self.log(window, f"✅ 已加载 {subject} 示例: {filename}", 'success')
+    
     def generate_report(self, window, values):
         """生成报告"""
         if not self.data_file:
@@ -360,6 +406,18 @@ class LabReportApp:
                         window['-PREVIEW-'].update(preview_text)
                         
                         self.log(window, f"数据预览已更新 ({df.shape[0]} 行)")
+            
+            # ===== 示例数据快捷加载 =====
+            elif event == '-LOAD_PHYSICS-':
+                self.load_example(window, '物理', '欧姆定律数据.csv', 'physics_basic')
+            elif event == '-LOAD_CHEMISTRY-':
+                self.load_example(window, '化学', '化学滴定数据.csv', 'chemistry_basic')
+            elif event == '-LOAD_BIOLOGY-':
+                self.load_example(window, '生物', '生物细胞数据.csv', 'biology_basic')
+            elif event == '-LOAD_CS-':
+                self.load_example(window, '计算机', '计算机算法数据.csv', 'cs_algorithm')
+            elif event == '-LOAD_ENGINEERING-':
+                self.load_example(window, '工程', '工程材料数据.csv', 'engineering_basic')
             
             elif event == '-GENERATE-':
                 self.generate_report(window, values)
