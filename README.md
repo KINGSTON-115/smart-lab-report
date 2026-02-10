@@ -10,23 +10,35 @@
 
 ## 🚀 一、立即使用（选择一种方式）
 
-### 方式 A：下载 Windows exe（最简单，推荐！）
+### 方式 A：在线 Web Demo（最简单！推荐！）
+
+**无需安装，直接浏览器打开：**
+
+1. 下载 `web_app.html` 文件
+2. 浏览器直接打开
+3. 选择数据 → 填写信息 → 生成报告
+
+**Web Demo 特点：**
+- ✨ 渐变动画效果
+- 📱 响应式设计（手机/电脑都能用）
+- 🎨 现代化 UI
+- 🚀 秒级响应
+
+### 方式 B：下载 Windows exe（推荐！）
 
 1. **下载**：https://github.com/KINGSTON-115/smart-lab-report/releases
 2. **双击** `SmartLabReport.exe` 运行
 3. **选择数据** → 填写信息 → 生成报告
 
-### 方式 B：在线体验（无下载）
-
-使用 Google Colab 或本地 Python：
+### 方式 C：源码运行（开发者）
 
 ```bash
 # 克隆并运行
 git clone https://github.com/KINGSTON-115/smart-lab-report.git
 cd smart-lab-report
 pip install -r requirements.txt
-python gui.py
-```
+python gui.py  # 图形界面
+python cli.py --help  # 命令行
 
 ### 方式 C：CLI 命令行
 

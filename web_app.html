@@ -29,14 +29,8 @@
         }
         
         @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
         .header {
@@ -85,12 +79,188 @@
             margin-top: 15px;
             font-size: 13px;
             backdrop-filter: blur(10px);
+            position: relative;
         }
         
         .content {
             padding: 40px;
         }
         
+        /* ========== 新手引导 ========== */
+        .guide-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.85);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(8px);
+        }
+        
+        .guide-overlay.active {
+            display: flex;
+        }
+        
+        .guide-card {
+            background: white;
+            border-radius: 24px;
+            padding: 48px;
+            max-width: 500px;
+            text-align: center;
+            animation: guidePop 0.4s ease-out;
+        }
+        
+        @keyframes guidePop {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        .guide-card h2 {
+            font-size: 28px;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .guide-steps {
+            margin: 32px 0;
+        }
+        
+        .guide-step {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            margin: 12px 0;
+            background: linear-gradient(135deg, #f8f9fc 0%, #eef1f8 100%);
+            border-radius: 14px;
+            text-align: left;
+            transition: all 0.3s ease;
+        }
+        
+        .guide-step:hover {
+            transform: translateX(8px);
+        }
+        
+        .guide-number {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 16px;
+            flex-shrink: 0;
+        }
+        
+        .guide-text {
+            font-size: 15px;
+            color: #1a1a2e;
+        }
+        
+        .guide-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            margin-top: 32px;
+        }
+        
+        .btn {
+            padding: 16px 36px;
+            border: none;
+            border-radius: 14px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(102, 126, 234, 0.5);
+        }
+        
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #666;
+        }
+        
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+        
+        /* ========== 高亮引导 ========== */
+        .highlight {
+            position: relative;
+            z-index: 10000;
+            box-shadow: 0 0 0 4px #667eea, 0 0 60px rgba(102, 126, 234, 0.5) !important;
+            border-radius: 16px !important;
+        }
+        
+        .tooltip {
+            position: fixed;
+            background: white;
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            z-index: 10001;
+            max-width: 280px;
+            animation: tooltipPop 0.3s ease-out;
+        }
+        
+        @keyframes tooltipPop {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .tooltip h4 {
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: #667eea;
+        }
+        
+        .tooltip p {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .tooltip-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 16px;
+        }
+        
+        .tooltip-btn {
+            padding: 8px 20px;
+            border-radius: 10px;
+            font-size: 13px;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+        }
+        
+        .tooltip-btn.next {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .tooltip-btn.skip {
+            background: #f0f0f0;
+            color: #999;
+        }
+        
+        /* ========== 原有样式 ========== */
         .section {
             margin-bottom: 30px;
             padding: 28px;
@@ -169,6 +339,12 @@
             background: linear-gradient(135deg, #eef1f8 0%, #f8f9fc 100%);
         }
         
+        .file-upload.highlight {
+            border-color: #764ba2;
+            background: linear-gradient(135deg, #eef1f8 0%, #f8f9fc 100%);
+            box-shadow: 0 0 0 4px #667eea, 0 0 60px rgba(102, 126, 234, 0.5);
+        }
+        
         .file-upload input {
             position: absolute;
             inset: 0;
@@ -215,100 +391,71 @@
             border-color: #667eea;
         }
         
+        .checkbox-item.highlight {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+        }
+        
         .checkbox-item input {
             width: 18px;
             height: 18px;
             accent-color: #667eea;
         }
         
-        .btn {
-            padding: 16px 40px;
-            border: none;
-            border-radius: 14px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.4);
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 40px rgba(102, 126, 234, 0.5);
-        }
-        
-        .btn-secondary {
-            background: linear-gradient(135deg, #f8f9fc 0%, #eef1f8 100%);
-            color: #667eea;
-            border: 2px solid #667eea;
-        }
-        
-        .btn-secondary:hover {
-            background: #667eea;
-            color: white;
-        }
-        
-        .button-group {
+        .btn-group {
             display: flex;
             gap: 16px;
             justify-content: center;
             flex-wrap: wrap;
         }
         
-        .preview {
-            background: #1a1a2e;
-            color: #0f0;
-            padding: 24px;
-            border-radius: 14px;
-            font-family: 'Fira Code', 'Consolas', monospace;
-            font-size: 13px;
-            min-height: 200px;
-            max-height: 350px;
-            overflow-y: auto;
-            line-height: 1.8;
+        .btn-generate {
+            padding: 18px 50px;
+            border: none;
+            border-radius: 16px;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 10px 40px rgba(102, 126, 234, 0.45);
         }
         
-        .preview .success {
-            color: #38ef7d;
+        .btn-generate:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 50px rgba(102, 126, 234, 0.55);
         }
         
-        .preview .error {
-            color: #ef4444;
+        .btn-generate.highlight {
+            transform: scale(1.05);
+            box-shadow: 0 0 0 4px #667eea, 0 15px 60px rgba(102, 126, 234, 0.6);
         }
         
-        .preview .info {
-            color: #60a5fa;
+        .btn-clear {
+            padding: 18px 40px;
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+            color: #666;
         }
         
-        .preview .warning {
-            color: #fbbf24;
-        }
-        
-        .status-bar {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            color: rgba(255,255,255,0.8);
-            padding: 16px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 13px;
+        .btn-clear:hover {
+            border-color: #667eea;
+            color: #667eea;
         }
         
         .progress {
             width: 100%;
-            height: 6px;
+            height: 8px;
             background: #e2e8f0;
-            border-radius: 3px;
+            border-radius: 4px;
             overflow: hidden;
-            margin: 20px 0;
+            margin: 24px 0;
             display: none;
         }
         
@@ -321,7 +468,26 @@
             background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
             width: 0%;
             transition: width 0.3s ease;
+            border-radius: 4px;
         }
+        
+        .output {
+            background: #1a1a2e;
+            color: #0f0;
+            padding: 24px;
+            border-radius: 14px;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 13px;
+            min-height: 200px;
+            max-height: 350px;
+            overflow-y: auto;
+            line-height: 1.8;
+        }
+        
+        .output .success { color: #38ef7d; }
+        .output .error { color: #ef4444; }
+        .output .info { color: #60a5fa; }
+        .output .warning { color: #fbbf24; }
         
         .features {
             display: grid;
@@ -334,7 +500,7 @@
             text-align: center;
             padding: 20px;
             background: white;
-            border-radius: 12px;
+            border-radius: 14px;
             transition: all 0.3s ease;
         }
         
@@ -352,32 +518,29 @@
             color: #4a5568;
         }
         
+        .footer {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: rgba(255,255,255,0.7);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
         @media (max-width: 768px) {
-            .container {
-                margin: 10px;
-                border-radius: 20px;
-            }
-            
-            .header {
-                padding: 40px 25px;
-            }
-            
-            .content {
-                padding: 25px;
-            }
-            
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .button-group {
-                flex-direction: column;
-            }
-            
-            .btn {
-                width: 100%;
-                justify-content: center;
-            }
+            .container { margin: 10px; border-radius: 20px; }
+            .header { padding: 40px 25px; }
+            .content { padding: 25px; }
+            .form-grid { grid-template-columns: 1fr; }
+            .btn-group { flex-direction: column; }
+            .btn-generate, .btn-clear { width: 100%; }
+            .footer { flex-direction: column; gap: 10px; text-align: center; }
         }
     </style>
 </head>
@@ -390,25 +553,25 @@
         </div>
         
         <div class="content">
-            <!-- 数据上传 -->
-            <div class="section">
+            <!-- 第一步：选择数据 -->
+            <div class="section" id="section-file">
                 <div class="section-title">
                     <span>📁</span>
-                    选择实验数据
+                    第一步：选择实验数据
                 </div>
-                <div class="file-upload" onclick="document.getElementById('fileInput').click()">
+                <div class="file-upload" id="fileUpload" onclick="document.getElementById('fileInput').click()">
                     <input type="file" id="fileInput" accept=".csv,.xlsx,.json" onchange="handleFile(this)">
                     <div class="file-icon">📊</div>
-                    <div class="file-text" id="fileText">点击或拖拽文件到这里</div>
+                    <div class="file-text" id="fileText">📁 点击或拖拽文件到这里</div>
                     <div class="file-hint">支持 CSV、Excel、JSON 格式</div>
                 </div>
             </div>
             
-            <!-- 报告信息 -->
-            <div class="section">
+            <!-- 第二步：填写信息 -->
+            <div class="section" id="section-info">
                 <div class="section-title">
                     <span>📝</span>
-                    报告信息
+                    第二步：填写实验信息
                 </div>
                 <div class="form-grid">
                     <div class="form-group">
@@ -426,30 +589,30 @@
                     <div class="form-group">
                         <label>选择模板</label>
                         <select id="template" class="form-control">
-                            <option value="physics_basic">🔬 物理实验基础模板</option>
-                            <option value="chemistry_basic">🧪 化学实验基础模板</option>
-                            <option value="biology_basic">🧬 生物实验基础模板</option>
-                            <option value="cs_algorithm">💻 计算机算法模板</option>
-                            <option value="engineering_basic">⚙️ 工程实验基础模板</option>
+                            <option value="physics_basic">🔬 物理实验</option>
+                            <option value="chemistry_basic">🧪 化学实验</option>
+                            <option value="biology_basic">🧬 生物实验</option>
+                            <option value="cs_algorithm">💻 计算机实验</option>
+                            <option value="engineering_basic">⚙️ 工程实验</option>
                         </select>
                     </div>
                 </div>
             </div>
             
-            <!-- 输出格式 -->
-            <div class="section">
+            <!-- 第三步：选择格式 -->
+            <div class="section" id="section-format">
                 <div class="section-title">
                     <span>📤</span>
-                    输出格式
+                    第三步：选择输出格式
                 </div>
                 <div class="checkbox-group" id="outputFormats">
                     <label class="checkbox-item">
                         <input type="checkbox" id="outDocx" checked>
-                        <span>📄 Word (.docx)</span>
+                        <span>📄 Word</span>
                     </label>
                     <label class="checkbox-item">
                         <input type="checkbox" id="outHtml" checked>
-                        <span>🌐 HTML 网页</span>
+                        <span>🌐 HTML</span>
                     </label>
                     <label class="checkbox-item">
                         <input type="checkbox" id="outMd">
@@ -457,7 +620,7 @@
                     </label>
                     <label class="checkbox-item">
                         <input type="checkbox" id="outPdf">
-                        <span>📑 PDF 文档</span>
+                        <span>📑 PDF</span>
                     </label>
                 </div>
                 
@@ -481,19 +644,24 @@
                 </div>
             </div>
             
-            <!-- 生成按钮 -->
-            <div class="button-group">
-                <button class="btn btn-primary" onclick="generateReport()">
-                    🚀 一键生成报告
-                </button>
-                <button class="btn btn-secondary" onclick="clearAll()">
-                    🗑️ 清空重置
-                </button>
-            </div>
-            
-            <!-- 进度条 -->
-            <div class="progress" id="progress">
-                <div class="progress-bar" id="progressBar"></div>
+            <!-- 第四步：生成报告 -->
+            <div class="section" id="section-generate">
+                <div class="section-title">
+                    <span>🚀</span>
+                    第四步：生成报告
+                </div>
+                <div class="btn-group">
+                    <button class="btn-generate" id="btnGenerate" onclick="generateReport()">
+                        🚀 一键生成报告
+                    </button>
+                    <button class="btn-clear" onclick="clearAll()">
+                        🗑️ 清空重置
+                    </button>
+                </div>
+                
+                <div class="progress" id="progress">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
             </div>
             
             <!-- 输出日志 -->
@@ -502,20 +670,166 @@
                     <span>📜</span>
                     生成日志
                 </div>
-                <div class="preview" id="output">
+                <div class="output" id="output">
                     <span class="info">💡 选择数据文件后，点击「一键生成报告」...</span>
                 </div>
             </div>
         </div>
         
-        <div class="status-bar">
-            <span>💻 Smart Lab Report v1.0.0</span>
-            <span>📦 开源免费 · GitHub: KINGSTON-115/smart-lab-report</span>
+        <div class="footer">
+            <span>💻 Smart Lab Report v1.0</span>
+            <span>📦 <a href="https://github.com/KINGSTON-115/smart-lab-report" target="_blank">GitHub 开源</a></span>
+        </div>
+    </div>
+
+    <!-- 新手引导弹窗 -->
+    <div class="guide-overlay" id="guideOverlay">
+        <div class="guide-card">
+            <h2>🎉 欢迎使用！</h2>
+            <p style="color: #666; margin-bottom: 24px;">只需 4 步，即可生成完美的实验报告</p>
+            
+            <div class="guide-steps">
+                <div class="guide-step">
+                    <div class="guide-number">1</div>
+                    <div class="guide-text">📁 选择你的实验数据文件</div>
+                </div>
+                <div class="guide-step">
+                    <div class="guide-number">2</div>
+                    <div class="guide-text">📝 填写实验标题和作者信息</div>
+                </div>
+                <div class="guide-step">
+                    <div class="guide-number">3</div>
+                    <div class="guide-text">📤 选择要输出的格式</div>
+                </div>
+                <div class="guide-step">
+                    <div class="guide-number">4</div>
+                    <div class="guide-text">🚀 点击「一键生成报告」</div>
+                </div>
+            </div>
+            
+            <div class="guide-buttons">
+                <button class="btn btn-secondary" onclick="skipGuide()">😎 我知道了</button>
+                <button class="btn btn-primary" onclick="startGuide()">👆 开始引导</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 步骤提示 -->
+    <div class="tooltip" id="tooltip" style="display: none;">
+        <h4 id="tooltipTitle">提示标题</h4>
+        <p id="tooltipText">提示内容</p>
+        <div class="tooltip-nav">
+            <button class="tooltip-btn skip" onclick="skipGuide()">跳过</button>
+            <button class="tooltip-btn next" onclick="nextStep()">下一步 →</button>
         </div>
     </div>
 
     <script>
         let currentFile = null;
+        let guideStep = 0;
+        let guideActive = false;
+        
+        // 引导步骤配置
+        const guideSteps = [
+            {
+                element: 'fileUpload',
+                title: '📁 选择数据文件',
+                text: '点击选择你的实验数据，支持 CSV、Excel、JSON 格式。数据越完整，报告越智能！',
+                position: 'bottom'
+            },
+            {
+                element: 'section-info',
+                title: '📝 填写实验信息',
+                text: '填写实验标题、作者和组别。选择适合你学科的模板，报告会自动匹配格式！',
+                position: 'bottom'
+            },
+            {
+                element: 'outputFormats',
+                title: '📤 选择输出格式',
+                text: 'Word 适合提交打印，HTML 适合网页分享，Markdown 适合笔记存档。',
+                position: 'top'
+            },
+            {
+                element: 'btnGenerate',
+                title: '🚀 生成报告',
+                text: '点击按钮，AI 自动分析数据并生成完整报告！',
+                position: 'top'
+            }
+        ];
+        
+        // 检查是否首次使用
+        function checkFirstUse() {
+            const firstUse = localStorage.getItem('smartLabFirstUse');
+            if (!firstUse) {
+                showGuide();
+            }
+        }
+        
+        function showGuide() {
+            document.getElementById('guideOverlay').classList.add('active');
+        }
+        
+        function skipGuide() {
+            document.getElementById('guideOverlay').classList.remove('active');
+            document.getElementById('tooltip').style.display = 'none';
+            clearHighlights();
+            localStorage.setItem('smartLabFirstUse', 'true');
+            guideActive = false;
+        }
+        
+        function startGuide() {
+            document.getElementById('guideOverlay').classList.remove('active');
+            guideStep = 0;
+            guideActive = true;
+            showTooltip();
+        }
+        
+        function showTooltip() {
+            if (!guideActive || guideStep >= guideSteps.length) {
+                skipGuide();
+                return;
+            }
+            
+            const step = guideSteps[guideStep];
+            const element = document.getElementById(step.element);
+            const tooltip = document.getElementById('tooltip');
+            
+            // 高亮元素
+            clearHighlights();
+            element.classList.add('highlight');
+            
+            // 更新提示内容
+            document.getElementById('tooltipTitle').textContent = step.title;
+            document.getElementById('tooltipText').textContent = step.text;
+            
+            // 定位提示框
+            const rect = element.getBoundingClientRect();
+            tooltip.style.display = 'block';
+            
+            if (step.position === 'bottom') {
+                tooltip.style.top = (rect.bottom + 20) + 'px';
+                tooltip.style.left = (rect.left + rect.width/2 - 140) + 'px';
+            } else {
+                tooltip.style.top = (rect.top - 200) + 'px';
+                tooltip.style.left = (rect.left + rect.width/2 - 140) + 'px';
+            }
+        }
+        
+        function nextStep() {
+            guideStep++;
+            if (guideStep >= guideSteps.length) {
+                skipGuide();
+                log('🎉 引导完成！开始你的实验报告之旅吧！', 'success');
+            } else {
+                showTooltip();
+            }
+        }
+        
+        function clearHighlights() {
+            document.querySelectorAll('.highlight').forEach(el => {
+                el.classList.remove('highlight');
+            });
+        }
         
         function log(msg, type = 'info') {
             const output = document.getElementById('output');
@@ -543,11 +857,16 @@
             currentFile = file;
             document.getElementById('fileText').innerHTML = `✅ ${file.name}`;
             log(`📂 已选择: ${file.name} (${(file.size/1024).toFixed(1)} KB)`, 'success');
+            
+            // 如果在引导中，跳过下一步
+            if (guideActive && guideStep === 0) {
+                nextStep();
+            }
         }
         
         function clearAll() {
             document.getElementById('fileInput').value = '';
-            document.getElementById('fileText').innerHTML = '📊 点击或拖拽文件到这里';
+            document.getElementById('fileText').innerHTML = '📁 点击或拖拽文件到这里';
             document.getElementById('title').value = '实验报告';
             document.getElementById('author').value = '';
             document.getElementById('group').value = '';
@@ -570,7 +889,6 @@
             log(`🚀 开始生成报告: ${title}`, 'info');
             log(`📝 作者: ${author} | 组别: ${group}`, 'info');
             
-            // 模拟生成过程
             const progress = document.getElementById('progress');
             const progressBar = document.getElementById('progressBar');
             progress.classList.add('active');
@@ -613,7 +931,7 @@
                 
                 log('', 'info');
                 log('📂 输出目录: output/', 'info');
-                log('💡 提示: 后端处理完成后会自动下载文件', 'info');
+                log('💡 提示: 实际使用时后端会自动下载文件', 'info');
                 
                 setTimeout(() => {
                     progress.classList.remove('active');
@@ -623,6 +941,7 @@
         }
         
         window.onload = function() {
+            checkFirstUse();
             log('🧪 Smart Lab Report 已就绪', 'success');
             log('📁 请选择实验数据文件开始', 'info');
         };
