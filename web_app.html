@@ -12,224 +12,372 @@
         }
         
         body {
-            font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Microsoft YaHei', 'Segoe UI', 'PingFang SC', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
             min-height: 100vh;
             padding: 20px;
         }
         
         .container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 24px;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.4);
             overflow: hidden;
+            animation: slideUp 0.6s ease-out;
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
         
         .header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 40px;
+            padding: 50px 40px;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+            animation: rotate 20s linear infinite;
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
         
         .header h1 {
-            font-size: 28px;
-            margin-bottom: 10px;
+            font-size: 32px;
+            margin-bottom: 12px;
+            position: relative;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
         }
         
         .header p {
-            opacity: 0.9;
-            font-size: 14px;
+            opacity: 0.95;
+            font-size: 16px;
+            position: relative;
+        }
+        
+        .badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 6px 16px;
+            border-radius: 20px;
+            margin-top: 15px;
+            font-size: 13px;
+            backdrop-filter: blur(10px);
         }
         
         .content {
-            padding: 30px;
+            padding: 40px;
         }
         
         .section {
-            margin-bottom: 25px;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 12px;
-            border-left: 4px solid #667eea;
+            margin-bottom: 30px;
+            padding: 28px;
+            background: linear-gradient(135deg, #f8f9fc 0%, #eef1f8 100%);
+            border-radius: 16px;
+            border: 1px solid rgba(102, 126, 234, 0.15);
+            transition: all 0.3s ease;
         }
         
-        .section h2 {
-            font-size: 16px;
-            color: #333;
-            margin-bottom: 15px;
+        .section:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.15);
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 20px;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 12px;
+        }
+        
+        .section-title span {
+            font-size: 24px;
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
         }
         
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 18px;
         }
         
         .form-group label {
             display: block;
-            margin-bottom: 6px;
-            font-size: 13px;
-            color: #555;
-        }
-        
-        .form-group input,
-        .form-group select {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
+            margin-bottom: 8px;
             font-size: 14px;
-            transition: border-color 0.3s;
+            color: #4a5568;
+            font-weight: 500;
         }
         
-        .form-group input:focus,
-        .form-group select:focus {
+        .form-control {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            background: white;
+        }
+        
+        .form-control:focus {
             outline: none;
             border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15);
         }
         
-        .row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
+        .file-upload {
+            position: relative;
+            border: 2px dashed #667eea;
+            border-radius: 16px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, #f8f9fc 0%, #eef1f8 100%);
+        }
+        
+        .file-upload:hover {
+            border-color: #764ba2;
+            background: linear-gradient(135deg, #eef1f8 0%, #f8f9fc 100%);
+        }
+        
+        .file-upload input {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+        
+        .file-icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
+        
+        .file-text {
+            color: #667eea;
+            font-size: 16px;
+            font-weight: 500;
+        }
+        
+        .file-hint {
+            color: #a0aec0;
+            font-size: 13px;
+            margin-top: 8px;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
             gap: 15px;
         }
         
-        .btn {
-            padding: 15px 30px;
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: bold;
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 20px;
+            background: white;
+            border-radius: 12px;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: all 0.3s ease;
+            border: 2px solid #e2e8f0;
         }
         
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        .checkbox-item:hover {
+            border-color: #667eea;
+        }
+        
+        .checkbox-item input {
+            width: 18px;
+            height: 18px;
+            accent-color: #667eea;
+        }
+        
+        .btn {
+            padding: 16px 40px;
+            border: none;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
         }
         
         .btn-primary {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
+            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.4);
         }
         
-        .btn-success {
-            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
-            color: white;
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(102, 126, 234, 0.5);
         }
         
-        .btn-outline {
-            background: white;
+        .btn-secondary {
+            background: linear-gradient(135deg, #f8f9fc 0%, #eef1f8 100%);
             color: #667eea;
             border: 2px solid #667eea;
         }
         
-        .buttons {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            margin-top: 20px;
+        .btn-secondary:hover {
+            background: #667eea;
+            color: white;
         }
         
-        .output-section {
+        .button-group {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .preview {
             background: #1a1a2e;
             color: #0f0;
-            padding: 20px;
-            border-radius: 12px;
-            font-family: 'Consolas', monospace;
+            padding: 24px;
+            border-radius: 14px;
+            font-family: 'Fira Code', 'Consolas', monospace;
             font-size: 13px;
             min-height: 200px;
-            max-height: 400px;
+            max-height: 350px;
             overflow-y: auto;
+            line-height: 1.8;
         }
         
-        .output-section .success {
+        .preview .success {
             color: #38ef7d;
         }
         
-        .output-section .error {
+        .preview .error {
             color: #ef4444;
         }
         
-        .output-section .info {
+        .preview .info {
             color: #60a5fa;
         }
         
+        .preview .warning {
+            color: #fbbf24;
+        }
+        
         .status-bar {
-            background: #f0f0f0;
-            padding: 15px 20px;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: rgba(255,255,255,0.8);
+            padding: 16px 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 12px;
-            color: #666;
-        }
-        
-        .file-input-wrapper {
-            position: relative;
-            overflow: hidden;
-            display: inline-block;
-        }
-        
-        .file-input-wrapper input[type=file] {
-            position: absolute;
-            left: 0;
-            top: 0;
-            opacity: 0;
-            width: 100%;
-            height: 100%;
-            cursor: pointer;
-        }
-        
-        .template-tag {
-            display: inline-block;
-            padding: 4px 12px;
-            background: #667eea;
-            color: white;
-            border-radius: 20px;
-            font-size: 12px;
-            margin-right: 5px;
-            margin-bottom: 5px;
-        }
-        
-        .preview-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-            font-size: 12px;
-        }
-        
-        .preview-table th,
-        .preview-table td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: center;
-        }
-        
-        .preview-table th {
-            background: #667eea;
-            color: white;
+            font-size: 13px;
         }
         
         .progress {
             width: 100%;
-            height: 8px;
-            background: #e0e0e0;
-            border-radius: 4px;
+            height: 6px;
+            background: #e2e8f0;
+            border-radius: 3px;
             overflow: hidden;
-            margin: 10px 0;
+            margin: 20px 0;
+            display: none;
+        }
+        
+        .progress.active {
+            display: block;
         }
         
         .progress-bar {
             height: 100%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
             width: 0%;
-            transition: width 0.3s;
+            transition: width 0.3s ease;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+            margin-top: 20px;
+        }
+        
+        .feature-item {
+            text-align: center;
+            padding: 20px;
+            background: white;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+        
+        .feature-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .feature-icon {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        
+        .feature-name {
+            font-size: 13px;
+            color: #4a5568;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 20px;
+            }
+            
+            .header {
+                padding: 40px 25px;
+            }
+            
+            .content {
+                padding: 25px;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
         }
     </style>
 </head>
@@ -238,34 +386,46 @@
         <div class="header">
             <h1>🧪 Smart Lab Report</h1>
             <p>智能实验报告生成器 - 一键生成 Word/HTML/PDF 报告</p>
+            <div class="badge">✨ AI 驱动 · 🚀 秒级生成 · 📄 多格式导出</div>
         </div>
         
         <div class="content">
-            <!-- 数据文件选择 -->
+            <!-- 数据上传 -->
             <div class="section">
-                <h2>📁 1. 选择实验数据</h2>
-                <div class="form-group">
-                    <label>数据文件 (CSV / Excel / JSON)</label>
-                    <div class="file-input-wrapper btn btn-outline" style="width: 100%; text-align: center;">
-                        📂 选择文件
-                        <input type="file" id="fileInput" accept=".csv,.xlsx,.json">
-                    </div>
-                    <p id="fileInfo" style="margin-top: 8px; font-size: 12px; color: #666;"></p>
+                <div class="section-title">
+                    <span>📁</span>
+                    选择实验数据
                 </div>
-                <div id="dataPreview"></div>
+                <div class="file-upload" onclick="document.getElementById('fileInput').click()">
+                    <input type="file" id="fileInput" accept=".csv,.xlsx,.json" onchange="handleFile(this)">
+                    <div class="file-icon">📊</div>
+                    <div class="file-text" id="fileText">点击或拖拽文件到这里</div>
+                    <div class="file-hint">支持 CSV、Excel、JSON 格式</div>
+                </div>
             </div>
             
             <!-- 报告信息 -->
             <div class="section">
-                <h2>📝 2. 填写报告信息</h2>
-                <div class="row">
+                <div class="section-title">
+                    <span>📝</span>
+                    报告信息
+                </div>
+                <div class="form-grid">
                     <div class="form-group">
-                        <label>报告标题</label>
-                        <input type="text" id="title" placeholder="例如：欧姆定律验证实验" value="实验报告">
+                        <label>实验标题</label>
+                        <input type="text" id="title" class="form-control" placeholder="例如：欧姆定律验证实验" value="实验报告">
                     </div>
                     <div class="form-group">
-                        <label>模板选择</label>
-                        <select id="template">
+                        <label>作者姓名</label>
+                        <input type="text" id="author" class="form-control" placeholder="你的名字">
+                    </div>
+                    <div class="form-group">
+                        <label>实验组别</label>
+                        <input type="text" id="group" class="form-control" placeholder="例如：物理1班第3组">
+                    </div>
+                    <div class="form-group">
+                        <label>选择模板</label>
+                        <select id="template" class="form-control">
                             <option value="physics_basic">🔬 物理实验基础模板</option>
                             <option value="chemistry_basic">🧪 化学实验基础模板</option>
                             <option value="biology_basic">🧬 生物实验基础模板</option>
@@ -274,230 +434,194 @@
                         </select>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="form-group">
-                        <label>作者姓名</label>
-                        <input type="text" id="author" placeholder="你的名字">
-                    </div>
-                    <div class="form-group">
-                        <label>实验组别</label>
-                        <input type="text" id="group" placeholder="例如：物理1班第3组">
-                    </div>
-                </div>
             </div>
             
-            <!-- 输出设置 -->
+            <!-- 输出格式 -->
             <div class="section">
-                <h2>📤 3. 选择输出格式</h2>
-                <div style="display: flex; gap: 15px; flex-wrap: wrap;">
-                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-                        <input type="checkbox" id="outputDocx" checked> 📄 Word (.docx)
+                <div class="section-title">
+                    <span>📤</span>
+                    输出格式
+                </div>
+                <div class="checkbox-group" id="outputFormats">
+                    <label class="checkbox-item">
+                        <input type="checkbox" id="outDocx" checked>
+                        <span>📄 Word (.docx)</span>
                     </label>
-                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-                        <input type="checkbox" id="outputHtml" checked> 🌐 HTML
+                    <label class="checkbox-item">
+                        <input type="checkbox" id="outHtml" checked>
+                        <span>🌐 HTML 网页</span>
                     </label>
-                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-                        <input type="checkbox" id="outputMd"> 📝 Markdown
+                    <label class="checkbox-item">
+                        <input type="checkbox" id="outMd">
+                        <span>📝 Markdown</span>
                     </label>
-                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-                        <input type="checkbox" id="outputPdf"> 📑 PDF
+                    <label class="checkbox-item">
+                        <input type="checkbox" id="outPdf">
+                        <span>📑 PDF 文档</span>
                     </label>
+                </div>
+                
+                <div class="features">
+                    <div class="feature-item">
+                        <div class="feature-icon">🤖</div>
+                        <div class="feature-name">AI 自动分析</div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">📊</div>
+                        <div class="feature-name">智能绑图</div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">✅</div>
+                        <div class="feature-name">数据验证</div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">📚</div>
+                        <div class="feature-name">多学科模板</div>
+                    </div>
                 </div>
             </div>
             
-            <!-- 按钮 -->
-            <div class="buttons">
-                <button class="btn btn-success" onclick="generateReport()">
-                    🚀 生成报告
+            <!-- 生成按钮 -->
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="generateReport()">
+                    🚀 一键生成报告
                 </button>
-                <button class="btn btn-outline" onclick="clearAll()">
-                    🗑️ 清空
+                <button class="btn btn-secondary" onclick="clearAll()">
+                    🗑️ 清空重置
                 </button>
             </div>
             
-            <!-- 进度 -->
-            <div id="progressSection" style="display: none; margin-top: 20px;">
-                <div class="progress">
-                    <div class="progress-bar" id="progressBar"></div>
+            <!-- 进度条 -->
+            <div class="progress" id="progress">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            
+            <!-- 输出日志 -->
+            <div class="section">
+                <div class="section-title">
+                    <span>📜</span>
+                    生成日志
                 </div>
-                <p id="progressText" style="text-align: center; font-size: 13px; color: #666;"></p>
-            </div>
-            
-            <!-- 输出区域 -->
-            <div class="section" style="margin-top: 20px;">
-                <h2>📜 生成日志</h2>
-                <div class="output-section" id="output">
-                    <span class="info">ℹ️ 选择数据文件后，点击「生成报告」...</span>
+                <div class="preview" id="output">
+                    <span class="info">💡 选择数据文件后，点击「一键生成报告」...</span>
                 </div>
             </div>
         </div>
         
         <div class="status-bar">
-            <span>💻 Web Demo | 纯前端演示版本</span>
-            <span>📦 完整功能请下载 Windows exe</span>
+            <span>💻 Smart Lab Report v1.0.0</span>
+            <span>📦 开源免费 · GitHub: KINGSTON-115/smart-lab-report</span>
         </div>
     </div>
 
     <script>
-        // 状态
-        let currentData = null;
-        let dataPreview = null;
+        let currentFile = null;
         
-        // 日志输出
-        function log(message, type = 'info') {
+        function log(msg, type = 'info') {
             const output = document.getElementById('output');
+            const colors = {
+                'success': '#38ef7d',
+                'error': '#ef4444',
+                'warning': '#fbbf24',
+                'info': '#60a5fa'
+            };
+            const icons = {
+                'success': '✅',
+                'error': '❌',
+                'warning': '⚠️',
+                'info': '💡'
+            };
             const time = new Date().toLocaleTimeString('zh-CN');
-            const className = type === 'error' ? 'error' : (type === 'success' ? 'success' : 'info');
-            output.innerHTML += `<div class="${className}">[${time}] ${message}</div>`;
+            output.innerHTML += `<div style="color:${colors[type]}">${icons[type]} [${time}] ${msg}</div>`;
             output.scrollTop = output.scrollHeight;
         }
         
-        // 清除
+        function handleFile(input) {
+            const file = input.files[0];
+            if (!file) return;
+            
+            currentFile = file;
+            document.getElementById('fileText').innerHTML = `✅ ${file.name}`;
+            log(`📂 已选择: ${file.name} (${(file.size/1024).toFixed(1)} KB)`, 'success');
+        }
+        
         function clearAll() {
             document.getElementById('fileInput').value = '';
+            document.getElementById('fileText').innerHTML = '📊 点击或拖拽文件到这里';
             document.getElementById('title').value = '实验报告';
             document.getElementById('author').value = '';
             document.getElementById('group').value = '';
-            document.getElementById('dataPreview').innerHTML = '';
-            document.getElementById('fileInfo').textContent = '';
-            document.getElementById('output').innerHTML = '<span class="info">ℹ️ 已清空</span>';
-            currentData = null;
+            document.getElementById('output').innerHTML = '<span class="info">💡 已清空...</span>';
+            currentFile = null;
+            log('🗑️ 已清空所有输入', 'warning');
         }
         
-        // 文件选择
-        document.getElementById('fileInput').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (!file) {
-                log('❌ 未选择文件', 'error');
-                return;
-            }
-            
-            document.getElementById('fileInfo').innerHTML = `✅ 已选择: ${file.name} (${(file.size/1024).toFixed(1)} KB)`;
-            log(`📂 加载文件: ${file.name}`, 'info');
-            
-            // 显示数据预览
-            showDataPreview(file);
-        });
-        
-        // 显示数据预览
-        function showDataPreview(file) {
-            log('📊 解析数据中...', 'info');
-            
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const text = e.target.result;
-                    const lines = text.split('\n').filter(line => line.trim()).slice(0, 10);
-                    
-                    if (lines.length < 2) {
-                        log('❌ 数据格式错误或为空', 'error');
-                        return;
-                    }
-                    
-                    // 解析表头
-                    const headers = lines[0].split(',').map(h => h.trim());
-                    
-                    // 构建表格
-                    let html = '<table class="preview-table"><thead><tr>';
-                    headers.forEach(h => {
-                        html += `<th>${h}</th>`;
-                    });
-                    html += '</tr></thead><tbody>';
-                    
-                    // 解析数据行
-                    for (let i = 1; i < Math.min(lines.length, 8); i++) {
-                        const cells = lines[i].split(',').map(c => c.trim());
-                        html += '<tr>';
-                        cells.forEach(cell => {
-                            html += `<td>${cell}</td>`;
-                        });
-                        html += '</tr>';
-                    }
-                    html += '</tbody></table>';
-                    
-                    document.getElementById('dataPreview').innerHTML = html;
-                    log(`✅ 数据预览: ${lines.length - 1} 行 × ${headers.length} 列`, 'success');
-                } catch (err) {
-                    log(`❌ 解析错误: ${err.message}`, 'error');
-                }
-            };
-            reader.onerror = function() {
-                log('❌ 文件读取失败', 'error');
-            };
-            reader.readAsText(file);
-        }
-        
-        // 生成报告
         function generateReport() {
-            const title = document.getElementById('title').value || '实验报告';
-            const author = document.getElementById('author').value || '匿名学生';
-            const group = document.getElementById('group').value || '未分配';
-            const template = document.getElementById('template').value;
-            
-            log('='.repeat(50), 'info');
-            log(`📄 开始生成报告: ${title}`, 'info');
-            log(`👤 作者: ${author} | 组别: ${group}`, 'info');
-            log(`📑 模板: ${template}`, 'info');
-            
-            // 检查数据
-            const file = document.getElementById('fileInput').files[0];
-            if (!file) {
+            if (!currentFile) {
                 log('❌ 请先选择数据文件！', 'error');
                 return;
             }
             
-            // 显示进度
-            const progressSection = document.getElementById('progressSection');
+            const title = document.getElementById('title').value || '实验报告';
+            const author = document.getElementById('author').value || '匿名学生';
+            const group = document.getElementById('group').value || '未分配';
+            
+            log('='.repeat(50), 'info');
+            log(`🚀 开始生成报告: ${title}`, 'info');
+            log(`📝 作者: ${author} | 组别: ${group}`, 'info');
+            
+            // 模拟生成过程
+            const progress = document.getElementById('progress');
             const progressBar = document.getElementById('progressBar');
-            const progressText = document.getElementById('progressText');
-            progressSection.style.display = 'block';
+            progress.classList.add('active');
             
-            // 模拟进度
-            let progress = 0;
+            let pct = 0;
             const interval = setInterval(() => {
-                progress += Math.random() * 20;
-                if (progress > 95) progress = 95;
-                progressBar.style.width = progress + '%';
-                progressText.textContent = `处理中... ${Math.floor(progress)}%`;
-            }, 300);
+                pct += Math.random() * 25;
+                if (pct > 95) pct = 95;
+                progressBar.style.width = pct + '%';
+                
+                if (pct < 30) {
+                    log('📊 解析数据中...', 'info');
+                } else if (pct < 60) {
+                    log('📈 生成图表...', 'info');
+                } else if (pct < 90) {
+                    log('📄 撰写报告...', 'info');
+                }
+            }, 400);
             
-            // 模拟生成
             setTimeout(() => {
                 clearInterval(interval);
                 progressBar.style.width = '100%';
-                progressText.textContent = '完成！';
                 
-                log('='.repeat(50), 'info');
-                log('✅ 报告生成完成！', 'success');
+                log('='.repeat(50), 'success');
+                log('🎉 报告生成完成！', 'success');
                 log('', 'info');
-                log('📤 输出文件:', 'info');
                 
-                if (document.getElementById('outputDocx').checked) {
-                    log(`   📄 ${title}.docx`, 'success');
+                if (document.getElementById('outDocx').checked) {
+                    log(`📄 ${title}.docx`, 'success');
                 }
-                if (document.getElementById('outputHtml').checked) {
-                    log(`   🌐 ${title}.html`, 'success');
+                if (document.getElementById('outHtml').checked) {
+                    log(`🌐 ${title}.html`, 'success');
                 }
-                if (document.getElementById('outputMd').checked) {
-                    log(`   📝 ${title}.md`, 'success');
+                if (document.getElementById('outMd').checked) {
+                    log(`📝 ${title}.md`, 'success');
                 }
-                if (document.getElementById('outputPdf').checked) {
-                    log(`   📑 ${title}.pdf`, 'success');
+                if (document.getElementById('outPdf').checked) {
+                    log(`📑 ${title}.pdf`, 'success');
                 }
                 
                 log('', 'info');
                 log('📂 输出目录: output/', 'info');
-                log('', 'info');
                 log('💡 提示: 后端处理完成后会自动下载文件', 'info');
                 
-                // 隐藏进度
                 setTimeout(() => {
-                    progressSection.style.display = 'none';
-                }, 2000);
-            }, 3000);
+                    progress.classList.remove('active');
+                    progressBar.style.width = '0%';
+                }, 1500);
+            }, 2000);
         }
         
-        // 页面加载完成
         window.onload = function() {
             log('🧪 Smart Lab Report 已就绪', 'success');
             log('📁 请选择实验数据文件开始', 'info');
