@@ -57,9 +57,9 @@ def main():
         """
     )
     
-    # 必需参数
-    parser.add_argument('--data', '-d', required=True, help='实验数据文件路径 (CSV/Excel/JSON)')
-    parser.add_argument('--title', '-t', required=True, help='实验报告标题')
+    # 必需参数（单文件模式）
+    parser.add_argument('--data', '-d', help='实验数据文件路径 (CSV/Excel/JSON)')
+    parser.add_argument('--title', '-t', help='实验报告标题')
     
     # 模板参数
     parser.add_argument('--template', '-T', 
@@ -94,10 +94,192 @@ def main():
     parser.add_argument('--error-analysis', default='', help='误差分析')
     parser.add_argument('--quiet', '-q', action='store_true', help='安静模式（减少输出）')
     
+    # 批量处理参数
+    parser.add_argument('--batch', '-b', action='store_true', help='批量处理模式：处理目录下所有数据文件')
+    parser.add_argument('--dir', '-D', default='data/examples', help='批量处理时扫描的目录（默认: data/examples）')
+    parser.add_argument('--output-dir', '-O', default='output/batch', help='批量处理时输出目录（默认: output/batch）')
+    
     args = parser.parse_args()
     
     # 设置中文字体
     setup_chinese_font()
+    
+    # 批量处理模式
+    if args.batch:
+        from pathlib import Path
+        import glob
+        
+        print("📦 批量处理模式启动")
+        print("=" * 50)
+        
+        input_dir = Path(args.dir)
+        output_dir = Path(args.output_dir)
+        output_dir.mkdir(parents=True, exist_ok=True)
+        
+        # 查找数据文件
+        data_files = list(input_dir.glob('*.csv')) + list(input_dir.glob('*.xlsx')) + list(input_dir.glob('*.json'))
+        
+        if not data_files:
+            print(f"❌ 目录中没有找到数据文件: {input_dir}")
+            sys.exit(1)
+        
+        print(f"📂 扫描目录: {input_dir}")
+        print(f"📄 找到 {len(data_files)} 个数据文件")
+        print("=" * 50)
+        
+        success = 0
+        failed = 0
+        
+        for filepath in data_files:
+            print(f"\n📄 处理: {filepath.name}")
+            
+            try:
+                # 自动匹配模板
+                name = filepath.name.lower()
+                if '欧姆' in name or '电压' in name or '物理' in name:
+                    template = 'physics_basic'
+                elif '滴定' in name or '化学' in name:
+                    template = 'chemistry_basic'
+                elif '细胞' in name or '生物' in name:
+                    template = 'biology_basic'
+                elif '算法' in name or '计算机' in name:
+                    template = 'cs_algorithm'
+                elif '材料' in name or '工程' in name:
+                    template = 'engineering_basic'
+                else:
+                    template = args.template
+                
+                # 生成报告
+                generator = ReportGenerator(template)
+                data = generator.load_data(str(filepath))
+                generator.summarize_data(data)
+                
+                # 自动选择图表列
+                numeric_cols = data.select_dtypes(include=['number']).columns.tolist()
+                if len(numeric_cols) >= 2:
+                    chart_config = ChartConfig(
+                        title=f"{numeric_cols[1]} vs {numeric_cols[0]}",
+                        chart_type='scatter'
+                    )
+                    generator.add_chart(data, numeric_cols[0], numeric_cols[1], chart_config)
+                
+                report = generator.generate_report(
+                    title=filepath.stem,
+                    author=args.author or "批量生成",
+                    group=args.group or "批量处理",
+                    data=data
+                )
+                
+                output_path = output_dir / f"{filepath.stem}.html"
+                generator.save_report(report, str(output_path))
+                
+                print(f"   ✅ {filepath.name} → {output_path.name}")
+                success += 1
+                
+            except Exception as e:
+                print(f"   ❌ 处理失败: {e}")
+                failed += 1
+        
+        print("\n" + "=" * 50)
+        print(f"📊 批量处理完成!")
+        print(f"   ✅ 成功: {success}")
+        print(f"   ❌ 失败: {failed}")
+        print(f"   📂 输出目录: {output_dir}")
+        sys.exit(0)
+    
+    # 单文件处理模式
+    if not args.data or not args.title:
+        print("❌ 请指定数据文件（--data）和标题（--title）")
+        print("💡 或使用批量模式: --batch")
+        print("\n示例:")
+        print("  python cli.py --data data.csv --title '实验报告'")
+        print("  python cli.py --batch                    # 批量处理")
+        parser.print_help()
+        sys.exit(1)
+        from pathlib import Path
+        import glob
+        
+        print("📦 批量处理模式启动")
+        print("=" * 50)
+        
+        input_dir = Path(args.dir)
+        output_dir = Path(args.output_dir)
+        output_dir.mkdir(parents=True, exist_ok=True)
+        
+        # 查找数据文件
+        data_files = list(input_dir.glob('*.csv')) + list(input_dir.glob('*.xlsx')) + list(input_dir.glob('*.json'))
+        
+        if not data_files:
+            print(f"❌ 目录中没有找到数据文件: {input_dir}")
+            sys.exit(1)
+        
+        print(f"📂 扫描目录: {input_dir}")
+        print(f"📄 找到 {len(data_files)} 个数据文件")
+        print("=" * 50)
+        
+        success = 0
+        failed = 0
+        
+        for filepath in data_files:
+            print(f"\n📄 处理: {filepath.name}")
+            
+            try:
+                # 自动匹配模板
+                name = filepath.name.lower()
+                if '欧姆' in name or '电压' in name or '物理' in name:
+                    template = 'physics_basic'
+                elif '滴定' in name or '化学' in name:
+                    template = 'chemistry_basic'
+                elif '细胞' in name or '生物' in name:
+                    template = 'biology_basic'
+                elif '算法' in name or '计算机' in name:
+                    template = 'cs_algorithm'
+                elif '材料' in name or '工程' in name:
+                    template = 'engineering_basic'
+                else:
+                    template = args.template
+                
+                # 生成报告
+                generator = ReportGenerator(template)
+                data = generator.load_data(str(filepath))
+                generator.summarize_data(data)
+                
+                # 自动选择图表列
+                numeric_cols = data.select_dtypes(include=['number']).columns.tolist()
+                if len(numeric_cols) >= 2:
+                    chart_config = ChartConfig(
+                        title=f"{numeric_cols[1]} vs {numeric_cols[0]}",
+                        chart_type='scatter'
+                    )
+                    generator.add_chart(data, numeric_cols[0], numeric_cols[1], chart_config)
+                
+                report = generator.generate_report(
+                    title=filepath.stem,
+                    author=args.author or "批量生成",
+                    group=args.group or "批量处理",
+                    data=data
+                )
+                
+                output_path = output_dir / f"{filepath.stem}.html"
+                generator.save_report(report, str(output_path))
+                
+                print(f"   ✅ {filepath.name} → {output_path.name}")
+                success += 1
+                
+            except Exception as e:
+                print(f"   ❌ 处理失败: {e}")
+                failed += 1
+        
+        print("\n" + "=" * 50)
+        print(f"📊 批量处理完成!")
+        print(f"   ✅ 成功: {success}")
+        print(f"   ❌ 失败: {failed}")
+        print(f"   📂 输出目录: {output_dir}")
+        sys.exit(0)
+    
+    # 单文件处理模式
+    
+    # 批量处理模式
     
     try:
         if not args.quiet:
