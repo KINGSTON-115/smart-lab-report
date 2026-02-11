@@ -74,11 +74,12 @@ def test_html_generator():
             
             # 验证 HTML 内容
             content = output_path.read_text(encoding='utf-8')
-            if "欧姆定律验证实验" in content and "张三" in content:
+            if "欧姆定律验证实验" in content and "李四" in content:
                 print(f"   ✅ HTML 内容验证通过")
                 return True
             else:
                 print(f"❌ HTML 内容验证失败")
+                print(f"   期望: 标题='欧姆定律验证实验', 作者='李四'")
                 return False
         else:
             print(f"❌ HTML 文件未生成")

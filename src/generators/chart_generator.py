@@ -4,6 +4,34 @@
 import matplotlib.pyplot as plt
 import matplotlib
 matplotlib.use('Agg')  # 无头模式
+
+# 设置支持中文的字体
+import matplotlib.font_manager as fm
+import os
+
+# 查找可用的中文字体
+CHINESE_FONTS = [
+    '/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc',  # 文泉驿正黑
+    '/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc',  # Noto Sans CJK
+]
+
+FONT_PATH = None
+for font_path in CHINESE_FONTS:
+    if os.path.exists(font_path):
+        FONT_PATH = font_path
+        break
+
+if FONT_PATH:
+    # 注册字体
+    fm.fontManager.addfont(FONT_PATH)
+    prop = fm.FontProperties(fname=FONT_PATH)
+    FONT_NAME = prop.get_name()
+    plt.rcParams['font.sans-serif'] = [FONT_NAME]
+    plt.rcParams['axes.unicode_minus'] = False
+else:
+    FONT_NAME = 'DejaVu Sans'
+    plt.rcParams['font.sans-serif'] = ['DejaVu Sans']
+    plt.rcParams['axes.unicode_minus'] = False
 import numpy as np
 import pandas as pd
 from pathlib import Path
