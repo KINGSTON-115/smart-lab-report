@@ -341,13 +341,26 @@ class ReportGenerator:
         content = section.content or ""
         
         # 根据章节类型动态生成内容
-        if section.name == "data_processing" and data is not None:
+        # 支持多种数据章节名称
+        data_sections = [
+            "data_processing",    # 物理
+            "data_analysis",      # 工程
+            "data_observation",   # 化学
+            "calculation",        # 化学
+            "results",            # 生物、计算机
+            "analysis",           # 生物
+        ]
+        if section.name in data_sections and data is not None:
             if self.data_summary:
                 content = self._render_data_summary()
         elif section.name == "conclusion":
             content = kwargs.get("conclusion", "*请根据实验结果填写结论...*")
         elif section.name == "error_analysis":
             content = kwargs.get("error_analysis", "*请分析实验误差来源...*")
+        elif section.name == "complexity":
+            # 计算机模板：时间复杂度分析
+            if self.data_summary:
+                content = self._render_data_summary()
         
         return content or f"<p>请在此处填写{section.title}内容...</p>"
     

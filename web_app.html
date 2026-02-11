@@ -587,7 +587,7 @@
                         <input type="text" id="group" class="form-control" placeholder="例如：物理1班第3组">
                     </div>
                     <div class="form-group">
-                        <label>选择模板</label>
+                        <label>选择模板 <span style="color:#667eea; cursor:pointer;" onclick="showTemplatePreview()">👀 预览</span></label>
                         <select id="template" class="form-control">
                             <option value="physics_basic">🔬 物理实验</option>
                             <option value="chemistry_basic">🧪 化学实验</option>
@@ -596,6 +596,17 @@
                             <option value="engineering_basic">⚙️ 工程实验</option>
                         </select>
                     </div>
+                </div>
+            </div>
+            
+            <!-- 模板预览弹窗 -->
+            <div class="modal" id="templateModal" onclick="if(event.target===this)closeTemplateModal()" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.8); z-index:10000; align-items:center; justify-content:center;">
+                <div class="modal-content" style="background:white; border-radius:20px; padding:30px; max-width:700px; max-height:80vh; overflow-y:auto;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                        <h2 id="modalTitle" style="margin:0;">模板预览</h2>
+                        <button onclick="closeTemplateModal()" style="background:none; border:none; font-size:24px; cursor:pointer;">×</button>
+                    </div>
+                    <div id="modalContent"></div>
                 </div>
             </div>
             
@@ -873,6 +884,123 @@
             document.getElementById('output').innerHTML = '<span class="info">💡 已清空...</span>';
             currentFile = null;
             log('🗑️ 已清空所有输入', 'warning');
+        }
+        
+        // 模板预览数据
+        const templatePreviews = {
+            'physics_basic': {
+                title: '🔬 物理实验模板',
+                chapters: [
+                    '一、实验目的',
+                    '二、实验原理',
+                    '三、实验仪器',
+                    '四、实验步骤',
+                    '五、数据处理（含统计图表）',
+                    '六、误差分析',
+                    '七、结论与讨论'
+                ],
+                features: ['数据统计', '图表绑定', '误差分析'],
+                color: '#667eea'
+            },
+            'chemistry_basic': {
+                title: '🧪 化学实验模板',
+                chapters: [
+                    '一、实验目的',
+                    '二、实验原理',
+                    '三、试剂与仪器',
+                    '四、实验步骤',
+                    '五、数据与观察',
+                    '六、计算',
+                    '七、误差分析',
+                    '八、结论'
+                ],
+                features: ['滴定计算', '浓度分析', '试剂记录'],
+                color: '#27AE60'
+            },
+            'biology_basic': {
+                title: '🧬 生物实验模板',
+                chapters: [
+                    '一、实验目的',
+                    '二、背景介绍',
+                    '三、材料与方法',
+                    '四、实验结果',
+                    '五、分析讨论',
+                    '六、结论'
+                ],
+                features: ['样本统计', '趋势分析', '对照实验'],
+                color: '#E67E22'
+            },
+            'cs_algorithm': {
+                title: '💻 计算机算法模板',
+                chapters: [
+                    '一、问题描述',
+                    '二、算法设计',
+                    '三、时间复杂度分析',
+                    '四、实现代码',
+                    '五、测试用例',
+                    '六、实验结果',
+                    '七、讨论与优化'
+                ],
+                features: ['复杂度分析', '代码展示', '性能对比'],
+                color: '#3498DB'
+            },
+            'engineering_basic': {
+                title: '⚙️ 工程实验模板',
+                chapters: [
+                    '一、实验目的',
+                    '二、理论依据',
+                    '三、设备规格',
+                    '四、实验程序',
+                    '五、数据分析',
+                    '六、性能评估',
+                    '七、结论'
+                ],
+                features: ['性能指标', '误差分析', '工程规范'],
+                color: '#9B59B6'
+            }
+        };
+        
+        function showTemplatePreview() {
+            const tmpl = document.getElementById('template').value;
+            const preview = templatePreviews[tmpl];
+            
+            if (!preview) return;
+            
+            document.getElementById('modalTitle').textContent = preview.title;
+            document.getElementById('modalTitle').style.color = preview.color;
+            
+            let html = `<div style="margin-bottom:20px;">
+                <h4 style="color:#666;">📑 报告章节</h4>
+                <ul style="line-height:2;">
+`;
+            preview.chapters.forEach(ch => {
+                html += `<li>${ch}</li>`;
+            });
+            html += `</ul></div>
+                <div style="margin-bottom:20px;">
+                    <h4 style="color:#666;">✨ 特色功能</h4>
+                    <div style="display:flex; gap:10px; flex-wrap:wrap;">
+`;
+            preview.features.forEach(f => {
+                html += `<span style="background:${preview.color}20; color:${preview.color}; padding:5px 12px; border-radius:20px; font-size:13px;">${f}</span>`;
+            });
+            html += `</div></div>
+                <div style="text-align:center; margin-top:20px;">
+                    <button onclick="selectTemplate('${tmpl}')" style="background:${preview.color}; color:white; border:none; padding:12px 30px; border-radius:10px; cursor:pointer; font-size:15px;">✅ 选择此模板</button>
+                </div>
+`;
+            document.getElementById('modalContent').innerHTML = html;
+            document.getElementById('templateModal').style.display = 'flex';
+        }
+        
+        function closeTemplateModal() {
+            document.getElementById('templateModal').style.display = 'none';
+        }
+        
+        function selectTemplate(tmpl) {
+            document.getElementById('template').value = tmpl;
+            closeTemplateModal();
+            log(`✅ 已选择模板: ${templatePreviews[tmpl].title}`, 'success');
         }
         
         function generateReport() {
